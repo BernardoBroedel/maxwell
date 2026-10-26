@@ -14,7 +14,7 @@ Em vez de entregar a resposta pronta, o Maxwell guia o aluno com perguntas e dic
 |---|---|
 | **Maxwell** | Tirar dúvidas, com dicas passo a passo |
 | **Revisão** | Treinar para a prova com perguntas rápidas |
-| **Cartões Anki** | Gerar cartões de memorização |
+| **Cartões Anki** | Gerar cartões de memorização para o [Anki](docs/GUIA_ALUNO.md#5-cartões-anki) |
 | **Exercícios** | Resolver exercícios junto com o aluno, depois que ele tenta |
 | **Plano de estudo** | Montar um roteiro de estudo até a prova |
 
