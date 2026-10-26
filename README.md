@@ -14,7 +14,7 @@ Em vez de entregar a resposta pronta, o Maxwell guia o aluno com perguntas e dic
 |---|---|
 | **Maxwell** | Tirar dúvidas, com dicas passo a passo |
 | **Revisão** | Treinar para a prova com perguntas rápidas |
-| **Cartões Anki** | Gerar cartões de memorização para o [Anki](docs/GUIA_ALUNO.md#5-cartões-anki) |
+| **Cartões Anki** | Gerar cartões de memorização para o [Anki](#cartões-anki) |
 | **Exercícios** | Resolver exercícios junto com o aluno, depois que ele tenta |
 | **Plano de estudo** | Montar um roteiro de estudo até a prova |
 
@@ -31,6 +31,31 @@ Aluno ──► Chat no navegador ──► Maxwell ──► Modelo de IA
 ```
 
 O modelo de IA pode ser um serviço gratuito na internet (Groq) ou rodar no próprio computador.
+
+## Cartões Anki
+
+O [Anki](https://apps.ankiweb.net) é um aplicativo gratuito de **cartões de memorização** (flashcards): pergunta na frente, resposta no verso. Você lê a pergunta, tenta lembrar, vira o cartão e diz se acertou.
+
+O diferencial é a **repetição espaçada**: o Anki decide quando cada cartão volta. O que você erra aparece de novo logo; o que você acerta volta em alguns dias, depois em semanas. Assim o aluno estuda mais o que ainda não sabe, em poucos minutos por dia. Funciona muito bem para fórmulas, definições e casos limite.
+
+O modo **Cartões Anki** do Maxwell gera esses cartões a partir do material da disciplina, prontos para importar.
+
+| Plataforma | Aplicativo |
+|---|---|
+| Windows, Mac e Linux | [Anki](https://apps.ankiweb.net) (gratuito) |
+| Android | AnkiDroid (gratuito, na Play Store) |
+| iPhone | AnkiMobile (pago) ou [AnkiWeb](https://ankiweb.net) no navegador (gratuito) |
+
+**Como usar:**
+
+1. No Maxwell, escolha o modo **Cartões Anki** e peça os cartões de um tema (ex.: *"Gera 10 cartões sobre carta de Smith"*).
+2. Copie o bloco de texto da resposta (ícone de copiar, no canto do bloco), cole no Bloco de Notas e salve como `cartoes.txt`.
+3. No Anki, vá em **Arquivo → Importar**, escolha o arquivo e o baralho de destino (ex.: "EM2 - Linhas de Transmissão") e clique em **Importar**.
+4. Para estudar, clique no baralho e em **Estudar agora**. As fórmulas aparecem formatadas.
+
+Para usar também no celular, crie uma conta gratuita no AnkiWeb, importe no computador uma vez e sincronize.
+
+**Dicas:** peça poucos cartões por tema (de 8 a 15), confira os cartões antes de estudar (o Maxwell pode errar) e estude um pouco todo dia. A repetição espaçada funciona com constância, não com maratona na véspera.
 
 ## Como rodar
 
