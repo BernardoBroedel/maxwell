@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <title>Maxwell</title>
+  <!-- Versão para tamanhos médios (avatar): sem o eixo, traços mais grossos -->
+  <rect width="120" height="120" rx="28" fill="#1D428A"/>
+  <path d="M18 72 C25.65 72 31.35 48 39 48 C46.65 48 52.35 72 60 72 C67.65 72 73.35 48 81 48 C88.65 48 94.35 72 102 72" fill="none" stroke="#F2A900" stroke-width="5" stroke-linecap="round"/>
+  <path d="M18 86 C25.65 86 31.35 34 39 34 C46.65 34 52.35 86 60 86 C67.65 86 73.35 34 81 34 C88.65 34 94.35 86 102 86" fill="none" stroke="#00A3E0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

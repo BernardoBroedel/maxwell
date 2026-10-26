@@ -1,0 +1,74 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:v0.11.4
+    ports:
+      - "${WEBUI_PORT:-3000}:8080"
+    environment:
+      WEBUI_NAME: Maxwell
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:?defina WEBUI_SECRET_KEY no .env}
+      # Numa instalação nova, cria o admin com essas credenciais (o script de setup usa as mesmas)
+      WEBUI_ADMIN_EMAIL: ${WEBUI_ADMIN_EMAIL:-}
+      WEBUI_ADMIN_PASSWORD: ${WEBUI_ADMIN_PASSWORD:-}
+      WEBUI_ADMIN_NAME: Equipe Maxwell
+      DEFAULT_LOCALE: pt-BR
+      ENABLE_OLLAMA_API: "false"
+      OPENAI_API_BASE_URL: ${WEBUI_OPENAI_BASE_URL:-http://backend:8000/v1}
+      OPENAI_API_KEY: ${WEBUI_OPENAI_API_KEY:-nao-usada}
+      # Novos cadastros ficam pendentes até um admin aprovar. Obs.: o Open WebUI
+      # desliga os cadastros sozinho após criar o admin; reative no Painel Admin (ver README).
+      ENABLE_SIGNUP: "true"
+      DEFAULT_USER_ROLE: pending
+    volumes:
+      - open-webui:/app/backend/data
+      # Paleta "Campo" (copiada para /static na inicialização). Remova para voltar às cores originais.
+      - ./branding/custom.css:/app/build/static/custom.css:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build: .
+    env_file: .env
+    volumes:
+      # Material do RAG (livro e notas em Markdown), fora da imagem: muda sem rebuild
+      - ./data/processed:/app/data/processed:ro
+    # Sem "ports": o backend só é acessível pelo Open WebUI, dentro da rede do compose
+    expose:
+      - "8000"
+    restart: unless-stopped
+
+  # Aplica identidade e configurações no Open WebUI (ver scripts/configurar_openwebui.py):
+  # docker compose --profile setup run --rm configurar
+  configurar:
+    build: .
+    profiles: [setup]
+    env_file: .env
+    environment:
+      OPENWEBUI_URL: http://open-webui:8080
+    volumes:
+      - ./scripts:/app/scripts:ro
+      - ./branding:/app/branding:ro
+      # Os modos vêm de src/maxwell/modos.py; montado para não depender de rebuild
+      - ./src:/app/src:ro
+    command: ["uv", "run", "--no-sync", "python", "scripts/configurar_openwebui.py"]
+    depends_on:
+      - open-webui
+
+  # Qwen local na GPU: docker compose --profile local up -d
+  ollama:
+    image: ollama/ollama:0.40.0
+    profiles: [local]
+    volumes:
+      - ollama:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+
+volumes:
+  open-webui:
+  ollama:

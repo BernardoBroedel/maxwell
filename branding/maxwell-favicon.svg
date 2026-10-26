@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <title>Maxwell</title>
+  <!-- Versão para tamanhos pequenos (favicon): só o campo E -->
+  <rect width="120" height="120" rx="28" fill="#1D428A"/>
+  <path d="M18 86 C25.65 86 31.35 34 39 34 C46.65 34 52.35 86 60 86 C67.65 86 73.35 34 81 34 C88.65 34 94.35 86 102 86" fill="none" stroke="#00A3E0" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

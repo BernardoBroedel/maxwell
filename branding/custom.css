@@ -1,0 +1,37 @@
+/*
+ * Maxwell: paleta "Campo" aplicada ao Open WebUI.
+ *
+ * O Open WebUI (Tailwind v4) define todas as cores como variáveis CSS. Em vez de
+ * sobrescrever classes internas, que mudam a cada versão, redefinimos as escalas:
+ * - cinzas neutros → cinzas azulados (no escuro, o fundo vira "Noite" #0B1B33;
+ *   no claro, a lateral vira "Névoa" #F3F6FA);
+ * - azuis → Azul UFES (#1D428A) e ciano do campo E (#00A3E0).
+ * Estilos fora de @layer têm prioridade sobre os do Tailwind (que ficam em @layer theme).
+ *
+ * Para desativar: remova a linha deste arquivo em docker-compose.yml.
+ */
+
+:root {
+  --color-gray-50: oklch(97.5% 0.006 250);  /* Névoa */
+  --color-gray-100: oklch(95% 0.01 252);
+  --color-gray-200: oklch(91.5% 0.014 254);
+  --color-gray-300: oklch(85% 0.02 256);
+  --color-gray-400: oklch(76% 0.026 257);
+  --color-gray-500: oklch(67% 0.03 258);
+  --color-gray-600: oklch(51% 0.04 259);
+  --color-gray-700: oklch(41% 0.045 260);
+  --color-gray-800: oklch(31% 0.048 260);
+  --color-gray-850: oklch(26% 0.05 260);
+  --color-gray-900: oklch(21.5% 0.05 260); /* Noite */
+  --color-gray-950: oklch(17% 0.045 260);
+
+  --color-blue-300: oklch(82% 0.09 236);
+  --color-blue-400: oklch(73% 0.12 237);
+  --color-blue-500: oklch(66% 0.14 238);   /* Campo E */
+  --color-blue-600: oklch(46% 0.13 262);
+  --color-blue-700: oklch(40% 0.12 262);   /* Azul UFES */
+}
+
+::selection {
+  background-color: color-mix(in oklab, #00A3E0 35%, transparent);
+}
