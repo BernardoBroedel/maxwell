@@ -1,5 +1,9 @@
 # Guia do aluno
 
+> [!CAUTION]
+> **O Maxwell pode errar. Não confie 100% nas respostas.**
+> Sempre confira fórmulas, valores e resoluções com o livro, as notas da disciplina e o professor.
+
 O Maxwell é um monitor de estudo de Eletromagnetismo II. Ele **não entrega a resposta pronta**: faz perguntas e dá dicas para você chegar lá sozinho. É assim que o conteúdo fixa para a prova.
 
 ## 1. Criar a conta

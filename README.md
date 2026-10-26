@@ -1,5 +1,9 @@
 # Maxwell
 
+> [!CAUTION]
+> **O Maxwell pode errar. Não confie 100% nas respostas.**
+> Ele é uma ferramenta de apoio ao estudo e não substitui o professor, o livro ou as aulas. Sempre confira fórmulas, valores e resoluções com o material da disciplina.
+
 Assistente de estudo com IA para a disciplina de **Eletromagnetismo II** da UFES.
 
 Em vez de entregar a resposta pronta, o Maxwell guia o aluno com perguntas e dicas, como um monitor. Foco atual: **Linhas de Transmissão**.
