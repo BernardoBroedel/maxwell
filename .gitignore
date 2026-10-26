@@ -1,0 +1,22 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+*.log
+
+# Editores e sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# PDFs da disciplina (apostila, livro): direitos autorais, não versionar.
+# O livro convertido em Markdown também fica de fora; as notas de estudo (data/processed/notas_lt/) são versionadas.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/cap11/
+data/chroma/
