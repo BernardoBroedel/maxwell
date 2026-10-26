@@ -34,10 +34,14 @@ def sugestoes(modo: Modo) -> list[dict]:
 
 BANNERS = [
     {
-        "id": "maxwell-fase-de-testes",
-        "type": "info",
+        # Id novo: quem fechou o aviso anterior volta a ver este
+        "id": "maxwell-pode-errar",
+        "type": "warning",
         "title": "",
-        "content": "O Maxwell está em fase de testes. Avalie as respostas com 👍/👎: isso ajuda a melhorar o tutor.",
+        "content": (
+            "O Maxwell pode errar: confira sempre as respostas com o livro, as notas e o professor. "
+            "Avalie com 👍/👎 para ajudar a melhorar o tutor."
+        ),
         "dismissible": True,
         "timestamp": int(time.time()),
     }
@@ -115,7 +119,7 @@ def main():
     padrao = next(modo for modo in MODOS if modo.id == PADRAO)
     request("POST", "/api/v1/configs/suggestions", token, {"suggestions": sugestoes(padrao)})
 
-    passo("Banner de fase de testes")
+    passo("Banner de aviso: o Maxwell pode errar")
     request("POST", "/api/v1/configs/banners", token, {"banners": BANNERS})
 
     avatar = "data:image/png;base64," + base64.b64encode(AVATAR.read_bytes()).decode()
