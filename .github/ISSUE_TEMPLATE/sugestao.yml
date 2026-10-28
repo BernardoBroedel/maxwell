@@ -1,0 +1,32 @@
+name: Sugestão
+description: Ideia de melhoria, novo conteúdo, novo modo ou envio de material de estudo.
+title: "[Sugestão] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Toda ideia é bem-vinda! Se for enviar material (notas, listas resolvidas), anexe o arquivo arrastando para o campo de descrição. Envie só material **seu ou da turma**: livros e apostilas têm direitos autorais.
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Que tipo de sugestão?
+      options:
+        - Novo conteúdo ou material de estudo
+        - Melhoria num modo que já existe
+        - Novo modo
+        - Outro
+    validations:
+      required: true
+  - type: textarea
+    id: descricao
+    attributes:
+      label: Descreva a sugestão
+      placeholder: "Ex.: Seria útil o Maxwell explicar a carta de Smith com um passo a passo desenhado."
+    validations:
+      required: true
+  - type: textarea
+    id: exemplo
+    attributes:
+      label: Exemplo (opcional)
+      description: Uma pergunta que você faria, ou como imagina a resposta.

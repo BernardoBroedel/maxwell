@@ -1,0 +1,49 @@
+name: Erro de conteúdo
+description: O Maxwell errou uma fórmula, um valor, um conceito ou uma explicação.
+title: "[Erro] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por avisar! Não precisa saber programar: preencha o que souber. Prints ajudam muito (arraste a imagem para qualquer campo).
+  - type: dropdown
+    id: modo
+    attributes:
+      label: Em qual modo você estava?
+      options:
+        - Maxwell (dúvidas)
+        - Exercícios
+        - Revisão
+        - Cartões Anki
+        - Plano de estudo
+        - Não sei
+    validations:
+      required: true
+  - type: textarea
+    id: pergunta
+    attributes:
+      label: O que você perguntou?
+      placeholder: "Ex.: Linha de 50 Ω com carga de 100 + j50 Ω. Quanto dá a ROE?"
+    validations:
+      required: true
+  - type: textarea
+    id: resposta
+    attributes:
+      label: O que o Maxwell respondeu?
+      description: Copie o trecho com o erro ou cole um print.
+    validations:
+      required: true
+  - type: textarea
+    id: correto
+    attributes:
+      label: O que está errado e qual seria o certo?
+      placeholder: "Ex.: A ROE certa é 2,62, não 2,0."
+    validations:
+      required: true
+  - type: input
+    id: referencia
+    attributes:
+      label: Referência (opcional)
+      description: Onde conferir o certo.
+      placeholder: "Ex.: Sadiku, cap. 11, eq. (11.36), p. 440"
