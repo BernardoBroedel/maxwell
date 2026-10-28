@@ -1,0 +1,60 @@
+name: Enviar conteúdo
+description: Mande uma resolução, um resumo, uma dica ou um erro do livro para o Maxwell usar.
+title: "[Conteúdo] "
+labels: ["conteúdo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por contribuir! Não precisa saber programar nem formatar bonito: **digite direto no campo abaixo** ou **anexe um arquivo** (`.md`, `.docx`, PDF ou foto legível de anotação à mão), arrastando para o campo.
+
+        A equipe confere tudo antes de incluir no Maxwell.
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Que tipo de conteúdo?
+      options:
+        - Exercício resolvido
+        - Resumo ou explicação de um tema
+        - Dica ou armadilha comum
+        - Fórmula ou dedução
+        - Erro de impressão no livro
+        - Outro
+    validations:
+      required: true
+  - type: input
+    id: assunto
+    attributes:
+      label: Assunto
+      placeholder: "Ex.: Carta de Smith, transitórios, casamento com toco"
+    validations:
+      required: true
+  - type: textarea
+    id: conteudo
+    attributes:
+      label: Conteúdo
+      description: 'Digite aqui ou anexe o arquivo. Fórmulas podem ir do jeito que der (ex.: Z0 = raiz(L/C)) ou em LaTeX ($Z_0=\sqrt{L/C}$).'
+      placeholder: |
+        Ex.: Problema 11.12 do Sadiku
+        Enunciado: ...
+        Resolução: ...
+        Resposta: Zent = 25 - j12 Ω
+    validations:
+      required: true
+  - type: input
+    id: origem
+    attributes:
+      label: De onde veio?
+      description: Se for exercício de livro ou lista, diga qual. A resolução precisa ser sua.
+      placeholder: "Ex.: Resolução minha do problema 11.12 do Sadiku"
+    validations:
+      required: true
+  - type: checkboxes
+    id: autorizacao
+    attributes:
+      label: Antes de enviar
+      options:
+        - label: O conteúdo foi escrito por mim (ou pela turma) e não é cópia de livro, apostila ou material de outra pessoa.
+          required: true
+        - label: Concordo que ele seja publicado neste repositório, que é público, e usado pelo Maxwell.
+          required: true

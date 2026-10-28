@@ -1,18 +1,18 @@
 name: Sugestão
-description: Ideia de melhoria, novo conteúdo, novo modo ou envio de material de estudo.
+description: Ideia de melhoria, novo tema ou novo modo.
 title: "[Sugestão] "
 labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Toda ideia é bem-vinda! Se for enviar material (notas, listas resolvidas), anexe o arquivo arrastando para o campo de descrição. Envie só material **seu ou da turma**: livros e apostilas têm direitos autorais.
+        Toda ideia é bem-vinda! Se você já tem o conteúdo pronto (uma resolução, um resumo), use o formulário **Enviar conteúdo**.
   - type: dropdown
     id: tipo
     attributes:
       label: Que tipo de sugestão?
       options:
-        - Novo conteúdo ou material de estudo
+        - Novo tema que o Maxwell deveria cobrir
         - Melhoria num modo que já existe
         - Novo modo
         - Outro
