@@ -95,20 +95,28 @@ Sem placa de vídeo, funciona, mas fica lento demais para uso real. Treinar um m
 
 ## Como contribuir
 
-**Não precisa saber programar.** O que mais ajuda agora é apontar erros de conteúdo e sugerir melhorias. Para isso, abra uma **issue**: um pedido registrado aqui no GitHub, que a equipe acompanha e responde.
+**Não precisa saber programar.** O que mais ajuda agora é mandar conteúdo, apontar erros e sugerir melhorias. Para isso, abra uma **issue**: um pedido registrado aqui no GitHub, que a equipe acompanha e responde.
 
 **Como abrir uma issue:**
 
 1. Crie uma conta gratuita no [GitHub](https://github.com/signup), se ainda não tiver.
 2. Acesse **[Nova issue](https://github.com/BernardoBroedel/maxwell/issues/new/choose)**.
 3. Escolha o formulário:
+   - **Enviar conteúdo:** uma resolução, um resumo, uma dica ou um erro do livro para o Maxwell usar.
    - **Erro de conteúdo:** o Maxwell errou uma fórmula, um valor ou uma explicação.
-   - **Sugestão:** ideia de melhoria, novo conteúdo, novo modo ou envio de material.
+   - **Sugestão:** ideia de melhoria, novo tema ou novo modo.
 4. Preencha os campos e clique em **Create** (ou **Submit new issue**). Para anexar um print, arraste a imagem para o campo de texto.
 
 **Ao relatar um erro, ajuda informar:** o modo usado, a pergunta, o que o Maxwell respondeu, o que seria o certo e, se possível, onde conferir (livro, página, equação).
 
-**Quer enviar material?** Notas, resumos e listas resolvidas podem ser anexados numa issue de Sugestão, em `.md`, `.docx` ou PDF. A equipe converte e inclui no Maxwell. Envie só material seu ou da turma: livros e apostilas têm direitos autorais.
+**Ao enviar conteúdo:** digite direto no formulário ou anexe um arquivo (`.md`, `.docx`, PDF ou foto legível de anotação à mão). Não precisa formatar: a equipe confere, organiza e inclui no Maxwell. O que mais ajuda:
+
+- exercícios resolvidos, com o passo a passo e a resposta final;
+- resumos de um tema com as suas palavras;
+- dicas e armadilhas que costumam derrubar na prova;
+- erros de impressão que você encontrou no livro.
+
+Envie só conteúdo escrito por você ou pela turma: livros e apostilas têm direitos autorais. O conteúdo enviado fica público neste repositório.
 
 Não tem conta no GitHub? Fale direto com a equipe.
 
