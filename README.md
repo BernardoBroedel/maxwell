@@ -93,6 +93,27 @@ Depois:
 
 Sem placa de vídeo, funciona, mas fica lento demais para uso real. Treinar um modelo próprio não é necessário por enquanto: o Maxwell se especializa pelas regras de ensino e pelo material da disciplina.
 
+## Como contribuir
+
+**Não precisa saber programar.** O que mais ajuda agora é apontar erros de conteúdo e sugerir melhorias. Para isso, abra uma **issue**: um pedido registrado aqui no GitHub, que a equipe acompanha e responde.
+
+**Como abrir uma issue:**
+
+1. Crie uma conta gratuita no [GitHub](https://github.com/signup), se ainda não tiver.
+2. Acesse **[Nova issue](https://github.com/BernardoBroedel/maxwell/issues/new/choose)**.
+3. Escolha o formulário:
+   - **Erro de conteúdo:** o Maxwell errou uma fórmula, um valor ou uma explicação.
+   - **Sugestão:** ideia de melhoria, novo conteúdo, novo modo ou envio de material.
+4. Preencha os campos e clique em **Create** (ou **Submit new issue**). Para anexar um print, arraste a imagem para o campo de texto.
+
+**Ao relatar um erro, ajuda informar:** o modo usado, a pergunta, o que o Maxwell respondeu, o que seria o certo e, se possível, onde conferir (livro, página, equação).
+
+**Quer enviar material?** Notas, resumos e listas resolvidas podem ser anexados numa issue de Sugestão, em `.md`, `.docx` ou PDF. A equipe converte e inclui no Maxwell. Envie só material seu ou da turma: livros e apostilas têm direitos autorais.
+
+Não tem conta no GitHub? Fale direto com a equipe.
+
+Para quem programa: veja o [guia técnico](docs/DESENVOLVIMENTO.md) e envie um *pull request*.
+
 ## Documentação
 
 - [Guia do aluno](docs/GUIA_ALUNO.md)
