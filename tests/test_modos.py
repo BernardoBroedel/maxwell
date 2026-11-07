@@ -15,3 +15,4 @@ def test_prompt_do_modo_inclui_as_regras_comuns(modo):
     prompt = load_prompt(modo.prompt)
     assert prompt.startswith("Você é o **Maxwell**")
     assert "# Modo:" in prompt
+    assert "**Não tenho certeza sobre [ponto em dúvida].**" in prompt
