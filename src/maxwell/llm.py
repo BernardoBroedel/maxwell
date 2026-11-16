@@ -12,12 +12,14 @@ def build_llm(settings: Settings) -> ChatOpenAI:
             "LLM_API_KEY não definida no .env. Use a chave da API do plano B "
             "ou 'ollama' para o Qwen local (veja .env.example)."
         )
+    extras = {"reasoning_effort": settings.llm_reasoning_effort} if settings.llm_reasoning_effort else {}
     return ChatOpenAI(
         base_url=settings.llm_base_url,
         api_key=settings.llm_api_key,
         model=settings.llm_model,
         temperature=settings.llm_temperature,
         streaming=True,
+        **extras,
     )
 
 

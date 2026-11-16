@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     llm_api_key: str = ""
     llm_model: str = "qwen/qwen3.8-27b"
     llm_temperature: float = 0.3
+    # Quanto o modelo "pensa" antes de responder: none, low, medium ou high.
+    # Vazio usa o padrão do modelo. Menos raciocínio = respostas mais rápidas.
+    llm_reasoning_effort: str = ""
 
     # Material do RAG: Markdown do livro e das notas. Sem a pasta, o tutor roda sem RAG.
     material_dir: str = "data/processed"

@@ -20,6 +20,11 @@ def test_contem_ignora_espacos_virgula_e_menos_unicode():
     assert not avaliar.contem("Γ = 0,5", "0.333")
 
 
+def test_contem_enxerga_numeros_dentro_do_latex():
+    assert avaliar.contem(r"$|\Gamma_L| \approx 0{,}277$", "0.277")
+    assert avaliar.contem(r"$Z_{in} = 40\,-\,j30\ \Omega$", "40-j30")
+
+
 def test_caso_detecta_vazamento_e_ferramenta():
     llm = FakeChatModel(
         messages=iter(

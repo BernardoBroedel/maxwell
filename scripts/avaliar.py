@@ -40,8 +40,13 @@ SAIDA = RAIZ / "avaliacao" / "resultados"
 
 
 def normalizar(texto: str) -> str:
-    """Minúsculas, sem espaços, vírgula decimal vira ponto e o menos unicode vira hífen."""
-    return re.sub(r"\s+", "", texto.lower()).replace(",", ".").replace("−", "-")
+    """Minúsculas, sem espaços, vírgula decimal vira ponto e o menos unicode vira hífen.
+
+    Também tira a marcação do LaTeX que esconde números: "0{,}277" e "40\\,\\Omega".
+    """
+    t = re.sub(r"\s+", "", texto.lower())
+    t = re.sub(r"\\[,;:!]", "", t).replace("{", "").replace("}", "")
+    return t.replace(",", ".").replace("−", "-")
 
 
 def contem(resposta: str, trecho: str) -> bool:
