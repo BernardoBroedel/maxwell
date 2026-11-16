@@ -54,6 +54,9 @@ def build_tutor_graph(
                 break
             except Exception as erro:
                 espera = segundos_para_tentar_de_novo(erro)
+                if espera is None and "tool call validation failed" in str(erro):
+                    # O modelo errou o nome de uma ferramenta (ex.: "an Animar_carga"): tenta de novo
+                    espera = 0
                 if espera is None or tentativa == TENTATIVAS_NO_LIMITE:
                     raise
                 await asyncio.sleep(espera)

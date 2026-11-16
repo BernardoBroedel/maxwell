@@ -35,6 +35,11 @@ services:
     # Sem "ports": o backend só é acessível pelo Open WebUI, dentro da rede do compose
     expose:
       - "8000"
+    # Permite ao backend falar com o Ollama instalado direto na máquina
+    # (LLM_BASE_URL=http://host.docker.internal:11434/v1). No Docker Desktop
+    # já funciona; esta linha faz funcionar também no Linux (ex.: PC do professor).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
   # Aplica identidade e configurações no Open WebUI (ver scripts/configurar_openwebui.py):
@@ -58,6 +63,9 @@ services:
   ollama:
     image: ollama/ollama:0.40.0
     profiles: [local]
+    environment:
+      # O padrão do Ollama é pouco contexto: o prompt + ferramentas + material + histórico não cabem
+      OLLAMA_CONTEXT_LENGTH: "16384"
     volumes:
       - ollama:/root/.ollama
     deploy:
