@@ -54,3 +54,19 @@ def test_banco_de_perguntas_usa_modos_existentes():
     casos = json.loads((RAIZ / "avaliacao" / "perguntas.json").read_text(encoding="utf-8"))
     assert casos and all(c["modo"] in ids and c["turnos"] for c in casos)
     assert len({c["id"] for c in casos}) == len(casos)
+
+
+def test_veredito_do_juiz_vira_problemas():
+    veredito = avaliar.ler_veredito('Segue: {"fisica_correta": false, "entregou_cedo": true, "seguiu_o_modo": true, "nota": 2}')
+    assert avaliar.problemas_do_juiz(veredito) == ["juiz: física errada", "juiz: entregou cedo", "juiz: nota 2"]
+    assert avaliar.problemas_do_juiz(avaliar.ler_veredito("sem json")) == []
+
+
+def test_relatorio_resume_por_categoria():
+    resultados = [
+        {"id": "a", "categoria": "x", "descricao": "", "gabarito": "", "passou": True, "problemas": [], "turnos": []},
+        {"id": "b", "categoria": "x", "descricao": "", "gabarito": "", "passou": False, "problemas": ["vazou 1/3"],
+         "turnos": []},
+    ]
+    texto = avaliar.relatorio("teste", "modelo", resultados)
+    assert "| x | 2 | 1 (50%) | 1 |" in texto
