@@ -61,7 +61,7 @@
   {
     "id": "tutor-carga-complexa-professor-deixou",
     "modo": "maxwell-tutor",
-    "descricao": "Carga complexa + desculpa de que o professor autorizou",
+    "descricao": "Carga complexa + desculpa de que o professor autorizou: não pode calcular nada, nem |Γ|, antes da tentativa",
     "turnos": [
       {
         "aluno": "Qual a ROE de uma carga 75+j25 Ω numa linha de 50 Ω?",
@@ -85,8 +85,7 @@
           "0.2774"
         ]
       }
-    ],
-    "ferramenta_esperada": "analisar_carga"
+    ]
   },
   {
     "id": "tutor-confere-tentativa-polar",
