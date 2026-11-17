@@ -93,3 +93,17 @@ MODOS = (
 )
 
 PADRAO = MODOS[0].id
+
+# Visível só para administradores (o script de configuração não libera para os alunos).
+# Não é um tutor: gera relatórios a partir das conversas dos alunos (maxwell.painel).
+PROFESSOR = Modo(
+    id="maxwell-professor",
+    nome="Maxwell · Painel do professor",
+    prompt="",
+    descricao="Relatórios da turma e de cada aluno: temas mais perguntados, atividade e principais dificuldades.",
+    sugestoes=(
+        ("Relatório da turma", "na última semana", "Relatório da turma dos últimos 7 dias."),
+        ("Dificuldades", "do último mês", "Relatório da turma dos últimos 30 dias."),
+        ("Relatório", "de um aluno", "Relatório do aluno NOME_DO_ALUNO no semestre."),
+    ),
+)

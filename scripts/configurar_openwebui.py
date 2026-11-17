@@ -21,12 +21,18 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-from maxwell.modos import MODOS, PADRAO, Modo
+from maxwell.modos import MODOS, PADRAO, PROFESSOR, Modo
 
 URL = os.environ.get("OPENWEBUI_URL", "http://open-webui:8080").rstrip("/")
 AVATAR = Path(__file__).resolve().parent.parent / "branding" / "maxwell-avatar-256.png"
 
 CREDITOS = "Eletromagnetismo II (UFES)."
+
+TURMA = "Turma EM2"
+PRIVACIDADE = (
+    "Suas conversas com o Maxwell ficam salvas e podem ser lidas pelo professor e pela equipe da disciplina, "
+    "para acompanhar a turma e melhorar o tutor."
+)
 
 
 def sugestoes(modo: Modo) -> list[dict]:
@@ -44,7 +50,15 @@ BANNERS = [
         ),
         "dismissible": True,
         "timestamp": int(time.time()),
-    }
+    },
+    {
+        "id": "maxwell-privacidade",
+        "type": "info",
+        "title": "",
+        "content": PRIVACIDADE,
+        "dismissible": True,
+        "timestamp": int(time.time()),
+    },
 ]
 
 
@@ -76,16 +90,26 @@ def main():
 
     token = request("POST", "/api/v1/auths/signin", body={"email": email, "password": senha})["token"]
 
-    passo("Cadastros: abertos, com aprovação do admin")
+    passo(f"Grupo '{TURMA}': todo aluno novo entra nele (para filtrar o Analytics pela turma)")
+    grupos = request("GET", "/api/v1/groups/", token) or []
+    grupo = next((g for g in grupos if g.get("name") == TURMA), None)
+    if grupo is None:
+        grupo = request("POST", "/api/v1/groups/create", token, {"name": TURMA, "description": "Alunos de Eletromagnetismo II"})
+    alunos = [u["id"] for u in request("GET", "/api/v1/users/all", token)["users"] if u.get("role") == "user"]
+    if alunos:
+        request("POST", f"/api/v1/groups/id/{grupo['id']}/users/add", token, {"user_ids": alunos})
+
+    passo("Cadastros: abertos, com aprovação do admin e aviso de privacidade")
     admin = request("GET", "/api/v1/auths/admin/config", token)
     admin.update(
         ENABLE_SIGNUP=True,
         DEFAULT_USER_ROLE="pending",
+        DEFAULT_GROUP_ID=grupo["id"],
         ENABLE_MESSAGE_RATING=True,
         PENDING_USER_OVERLAY_TITLE="Cadastro recebido!",
         PENDING_USER_OVERLAY_CONTENT=(
             "Seu acesso ao Maxwell será liberado pela equipe em breve. "
-            "Depois da aprovação, entre com o mesmo e-mail e senha."
+            "Depois da aprovação, entre com o mesmo e-mail e senha. " + PRIVACIDADE
         ),
     )
     request("POST", "/api/v1/auths/admin/config", token, admin)
@@ -140,6 +164,23 @@ def main():
         }
         existente = request("GET", f"/api/v1/models/model?id={modo.id}", token, none_if_404=True)
         request("POST", "/api/v1/models/model/update" if existente else "/api/v1/models/create", token, modelo)
+
+    passo(f"Cartão do {PROFESSOR.nome}: só administradores veem")
+    modelo = {
+        "id": PROFESSOR.id,
+        "base_model_id": None,
+        "name": PROFESSOR.nome,
+        "meta": {
+            "profile_image_url": avatar,
+            "description": PROFESSOR.descricao,
+            "suggestion_prompts": sugestoes(PROFESSOR),
+        },
+        "params": {},
+        "access_grants": [],
+        "is_active": True,
+    }
+    existente = request("GET", f"/api/v1/models/model?id={PROFESSOR.id}", token, none_if_404=True)
+    request("POST", "/api/v1/models/model/update" if existente else "/api/v1/models/create", token, modelo)
 
     print("Pronto. Recarregue o Open WebUI no navegador.")
 

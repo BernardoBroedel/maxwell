@@ -18,6 +18,16 @@ TOOLS_NODE = "ferramentas"
 # respostas curtas ("não entendi", "e no caso do curto?") perdem o assunto.
 MENSAGENS_NA_CONSULTA = 2
 
+# Vai no fim do prompt de sistema, depois do material do RAG: sem raciocínio prévio
+# (LLM_REASONING_EFFORT=none), o modelo tende a seguir o que leu por último e
+# esquecer as regras do modo, que ficam no começo.
+LEMBRETE = (
+    "# Lembrete final\n\n"
+    "Os trechos acima são só para consulta. Responda seguindo as regras do **modo** descritas no começo "
+    "destas instruções. Nos modos tutor e exercícios: se o aluno ainda não tentou, **não entregue o resultado "
+    "nem faça contas com os números dele**; dê a fórmula ou uma dica e peça a tentativa."
+)
+
 # Quantas vezes esperar e repetir uma chamada que bateu no limite por minuto da API
 TENTATIVAS_NO_LIMITE = 2
 
@@ -45,6 +55,7 @@ def build_tutor_graph(
         sistema = system_prompt
         if state.get("material"):
             sistema += "\n\n" + state["material"]
+        sistema += "\n\n" + LEMBRETE
         mensagens = [SystemMessage(sistema), *state["messages"]]
         # No limite por minuto da API (plano gratuito), espera o tempo pedido e tenta
         # de novo: a resposta demora, mas chega.
@@ -54,6 +65,9 @@ def build_tutor_graph(
                 break
             except Exception as erro:
                 espera = segundos_para_tentar_de_novo(erro)
+                if espera is None and "tool call validation failed" in str(erro):
+                    # O modelo errou o nome de uma ferramenta (ex.: "an Animar_carga"): tenta de novo
+                    espera = 0
                 if espera is None or tentativa == TENTATIVAS_NO_LIMITE:
                     raise
                 await asyncio.sleep(espera)

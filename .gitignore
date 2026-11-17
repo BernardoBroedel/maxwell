@@ -19,4 +19,9 @@ Thumbs.db
 data/raw/*
 !data/raw/.gitkeep
 data/processed/cap11/
+data/processed/sadiku/
 data/chroma/
+
+# Resultados da avaliação (gerados por scripts/avaliar.py)
+avaliacao/resultados/
+avaliacao/bateria.json

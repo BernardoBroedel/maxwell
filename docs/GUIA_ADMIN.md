@@ -63,6 +63,22 @@ Em **Painel Admin → Configurações → Interface**:
 
 ![Interface](img/admin-interface.png)
 
+## 8. Painel do professor (relatórios)
+
+No seletor de modos, o administrador vê um modo a mais: **Maxwell · Painel do professor**. Os alunos não veem. Nele, peça em português:
+
+- *"Relatório da turma dos últimos 7 dias"*: alunos ativos, perguntas, temas mais perguntados, uso dos modos, uma tabela por aluno (perguntas, temas, quantas vezes pediu a resposta pronta, 👍/👎, última atividade) e uma **análise das principais dificuldades** feita pela IA a partir das perguntas.
+- *"Relatório do aluno João no semestre"*: o mesmo para um aluno, com as últimas perguntas e uma análise de onde ele trava.
+
+O período pode ser em dias, semanas, meses ou "semestre". As estatísticas são calculadas por código; só a análise em texto vem da IA.
+
+## 9. Acompanhar a turma
+
+- **Analytics** (em **Configurações → Admin → Analytics**): volume de mensagens, uso de cada modo e atividade por aluno, por período. Escolha o grupo **Turma EM2** para ver só os alunos.
+- **Grupo Turma EM2**: todo aluno aprovado entra nele automaticamente.
+- **Conversas de cada aluno**: na lista de usuários, abra o aluno para ver o histórico dele.
+- **Privacidade**: os alunos são avisados, no cadastro e num aviso no topo da tela, de que as conversas podem ser lidas pela equipe da disciplina.
+
 ## Bom saber
 
 - **Limite do serviço gratuito:** muitas perguntas no mesmo minuto deixam as respostas lentas. Se passar do limite, o Maxwell avisa o aluno para esperar uns 30 segundos.

@@ -20,7 +20,8 @@ from maxwell.config import Settings, get_settings
 from maxwell.graph import TUTOR_NODE, build_tutor_graph
 from maxwell.llm import build_llm, load_prompt
 from maxwell.material import Busca, carregar
-from maxwell.modos import MODOS
+from maxwell.modos import MODOS, PROFESSOR
+from maxwell.painel import FonteOpenWebUI, PainelProfessor
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -84,12 +85,20 @@ def carregar_busca(diretorio: Path) -> Busca | None:
     return Busca(trechos)
 
 
+def ultima_pergunta(messages: list[BaseMessage]) -> str:
+    return next((str(m.content) for m in reversed(messages) if isinstance(m, HumanMessage)), "")
+
+
 def create_app(
-    graphs: dict | None = None, settings: Settings | None = None, llm_tarefas: BaseChatModel | None = None
+    graphs: dict | None = None,
+    settings: Settings | None = None,
+    llm_tarefas: BaseChatModel | None = None,
+    painel: PainelProfessor | None = None,
 ) -> FastAPI:
     """``graphs`` mapeia o id de cada modo ao seu grafo; por padrão, um grafo por modo de ``MODOS``.
 
     ``llm_tarefas`` responde às tarefas de fundo do Open WebUI (título, tags...); sem ele, elas passam pelo grafo.
+    ``painel`` atende o modo do professor; por padrão, existe quando há credenciais de admin no ``.env``.
     """
     if graphs is None:
         settings = settings or get_settings()
@@ -97,7 +106,11 @@ def create_app(
         busca = carregar_busca(Path(settings.material_dir))
         graphs = {modo.id: build_tutor_graph(llm, load_prompt(modo.prompt), busca=busca) for modo in MODOS}
         llm_tarefas = llm_tarefas or llm
-    nomes = {modo.id: modo.nome for modo in MODOS}
+        if painel is None and settings.webui_admin_email and settings.webui_admin_password:
+            fonte = FonteOpenWebUI(settings.openwebui_url, settings.webui_admin_email, settings.webui_admin_password)
+            painel = PainelProfessor(fonte, llm)
+    nomes = {modo.id: modo.nome for modo in (*MODOS, PROFESSOR)}
+    modelos = [*graphs, *([PROFESSOR.id] if painel is not None else [])]
 
     app = FastAPI(title="Maxwell")
 
@@ -111,15 +124,16 @@ def create_app(
             "object": "list",
             "data": [
                 {"id": model_id, "name": nomes.get(model_id, model_id), "object": "model", "owned_by": "ufes"}
-                for model_id in graphs
+                for model_id in modelos
             ],
         }
 
     @app.post("/v1/chat/completions")
     async def chat_completions(request: ChatCompletionRequest):
         graph = graphs.get(request.model)
-        if graph is None:
-            raise HTTPException(404, f"Modelo {request.model!r} não existe. Disponíveis: {', '.join(graphs)}.")
+        e_painel = painel is not None and request.model == PROFESSOR.id
+        if graph is None and not e_painel:
+            raise HTTPException(404, f"Modelo {request.model!r} não existe. Disponíveis: {', '.join(modelos)}.")
         messages = to_langchain_messages(request.messages)
         inputs = {"messages": messages}
         tarefa = llm_tarefas is not None and e_tarefa_do_open_webui(messages)
@@ -130,6 +144,8 @@ def create_app(
             try:
                 if tarefa:
                     content = (await llm_tarefas.ainvoke(messages)).content
+                elif e_painel:
+                    content = await painel.responder(ultima_pergunta(messages))
                 else:
                     content = (await graph.ainvoke(inputs))["messages"][-1].content
             except Exception as erro:
@@ -163,6 +179,9 @@ def create_app(
                 async for chunk in llm_tarefas.astream(messages):
                     if isinstance(chunk.content, str) and chunk.content:
                         yield chunk.content
+                return
+            if e_painel:
+                yield await painel.responder(ultima_pergunta(messages))
                 return
             async for chunk, metadata in graph.astream(inputs, stream_mode="messages"):
                 # Só os tokens da resposta ao aluno; chamadas internas do grafo

@@ -11,6 +11,15 @@ class Settings(BaseSettings):
     llm_api_key: str = ""
     llm_model: str = "qwen/qwen3.8-27b"
     llm_temperature: float = 0.3
+    # Quanto o modelo "pensa" antes de responder: none, low, medium ou high.
+    # Vazio usa o padrão do modelo. Menos raciocínio = respostas mais rápidas.
+    llm_reasoning_effort: str = ""
+
+    # Painel do professor: lê as conversas no Open WebUI com a conta de administrador.
+    # Sem e-mail e senha, o painel não aparece.
+    openwebui_url: str = "http://open-webui:8080"
+    webui_admin_email: str = ""
+    webui_admin_password: str = ""
 
     # Material do RAG: Markdown do livro e das notas. Sem a pasta, o tutor roda sem RAG.
     material_dir: str = "data/processed"
