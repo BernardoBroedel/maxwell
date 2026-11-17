@@ -70,3 +70,10 @@ def test_relatorio_resume_por_categoria():
     ]
     texto = avaliar.relatorio("teste", "modelo", resultados)
     assert "| x | 2 | 1 (50%) | 1 |" in texto
+
+
+def test_detecta_cartao_anki_com_ponto_e_virgula_a_mais():
+    bom = "```\n#separator:Semicolon\nO que é ROE?;Razão de onda estacionária.\n```"
+    ruim = "```\n#separator:Semicolon\nO que é ROE?;Razão; depende de Γ.\nZ\\;\\Omega?;ok\n```"
+    assert avaliar.cartoes_anki_quebrados(bom) == 0
+    assert avaliar.cartoes_anki_quebrados(ruim) == 2

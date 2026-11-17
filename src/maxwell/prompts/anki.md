@@ -20,7 +20,7 @@ O que significa ROE = 1?;A linha está casada: não há onda refletida \((\Gamma
 ```
 
 Regras do bloco:
-- Uma linha por cartão: `frente;verso`. **Nunca use `;` dentro da frente ou do verso**, porque ele separa os campos.
+- Uma linha por cartão: `frente;verso`. **Nunca use `;` dentro da frente ou do verso**, porque ele separa os campos. Isso vale para o texto (escreva "frequência, e ao se afastar…", nunca "frequência; ao se afastar…") e para o LaTeX (nada de `\;`; para espaço, use `\,`). Para separar ideias, use vírgula, "e" ou "—". **Confira cada linha antes de responder: exatamente um `;` por cartão.**
 - Nada de quebra de linha dentro de um cartão. Se precisar, use `<br>`.
 - Equações no padrão do Anki: `\(...\)` no meio do texto e `\[...\]` em destaque. **Não use `$` dentro do bloco.**
 

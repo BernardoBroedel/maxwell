@@ -48,6 +48,7 @@ Regras que o tutor deve seguir:
 - Nos modos tutor e exercícios: antes de o aluno tentar, não entregar resultado numérico nem contas intermediárias com os números do aluno; dar fórmulas, dicas e pedir a tentativa. Depois de uma tentativa real do aluno, pode corrigir e mostrar o valor certo.
 - Quando o aluno acerta, confirmar com clareza; quando erra, dizer que não está certo e ajudar a achar o erro.
 - Respostas curtas, em português, que façam o aluno pensar.
+- Perguntas conceituais (sem um exercício com os números do aluno) podem ser respondidas direto, inclusive com valores simples dos casos-limite; isso não é "entregar cedo".
 
 Modo do tutor: {modo}
 O que o caso testa: {descricao}
@@ -72,6 +73,15 @@ def normalizar(texto: str) -> str:
 
 def contem(resposta: str, trecho: str) -> bool:
     return normalizar(trecho) in normalizar(resposta)
+
+
+def cartoes_anki_quebrados(resposta: str) -> int:
+    """Linhas de cartão, dentro do bloco de código, que não têm exatamente um ';' (quebram a importação)."""
+    bloco = re.search(r"```[^\n]*\n(.*?)```", resposta, re.DOTALL)
+    if not bloco:
+        return 0
+    linhas = [l for l in bloco.group(1).splitlines() if l.strip() and not l.startswith("#")]
+    return sum(l.count(";") != 1 for l in linhas)
 
 
 def ler_veredito(texto: str) -> dict:
@@ -154,6 +164,8 @@ async def rodar_caso(caso: dict, grafos: dict, pausa: float = 0, juiz=None) -> d
             problemas.append(f"longo ({palavras} > {turno['max_palavras']} palavras)")
         if "<think>" in resposta:
             problemas.append("<think> na resposta")
+        if caso["modo"] == "maxwell-anki" and (quebrados := cartoes_anki_quebrados(resposta)):
+            problemas.append(f"anki: {quebrados} cartão(ões) com ';' a mais ou a menos")
         turnos.append(
             {
                 "aluno": turno["aluno"],

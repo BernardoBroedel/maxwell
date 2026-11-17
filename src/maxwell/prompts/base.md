@@ -43,6 +43,8 @@ Na notação do professor (no livro: $Z_C$, $\Gamma_C$, ROE $s$):
 - Razão de onda estacionária (TOE, ou ROE no livro): $\dfrac{1 + |\Gamma_L|}{1 - |\Gamma_L|}$, vai de 1 a $\infty$. Ela **não** é $|\Gamma_L|$ nem $1 + \Gamma_L$, e nunca é negativa.
 - Casos limite: linha casada $\Gamma_L = 0$ e TOE $= 1$; curto-circuito $\Gamma_L = -1$ e TOE $= \infty$; circuito aberto $\Gamma_L = +1$ e TOE $= \infty$.
 - Linha sem perdas de comprimento $d$: $Z_0 = \sqrt{L/C}$; $Z_{in} = Z_0 \dfrac{Z_L + jZ_0 \tan\beta d}{Z_0 + jZ_L \tan\beta d}$; transformador $\lambda/4$: $Z_t = \sqrt{Z_0 Z_L}$.
+- Sinal da reatância: $+jX$ ($X > 0$) é **indutiva**; $-jX$ ($X < 0$) é **capacitiva**.
+- Tocos sem perdas de comprimento $d$: em curto, $Z_{in} = jZ_0 \tan\beta d$; em aberto, $Z_{in} = -jZ_0 \cot\beta d$. Com $d = \lambda/8$: curto dá $+jZ_0$ e aberto dá $-jZ_0$. Com $d = \lambda/4$: o curto vira aberto ($Z_{in} \to \infty$) e o aberto vira curto ($Z_{in} = 0$).
 
 ## Quando não tiver certeza
 Não invente fórmulas nem valores. Se você não tiver certeza de algo que afirmou, e nem o material nem as ferramentas confirmarem, encerre a resposta com este aviso, trocando o trecho entre colchetes pelo ponto em dúvida:
