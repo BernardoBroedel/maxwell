@@ -7,7 +7,7 @@ Para cada caso, conversa com o modo indicado turno a turno e mede:
 - tamanho e tempo de cada resposta;
 - <think>: o raciocínio interno apareceu na resposta.
 
-Com --juiz, o próprio modelo (com raciocínio alto) lê cada conversa e julga física,
+Com --juiz, o próprio modelo (com raciocínio médio, ajustável) lê cada conversa e julga física,
 entrega antecipada da resposta e didática, usando o gabarito do caso.
 
 Uso (na raiz do projeto):
@@ -272,7 +272,8 @@ async def main() -> int:
     parser.add_argument("--so", nargs="*", help="roda só os casos com estes ids")
     parser.add_argument("--limite", type=int, help="roda só os primeiros N casos (para testar a bateria)")
     parser.add_argument("--paralelo", type=int, default=1, help="casos ao mesmo tempo (use até OLLAMA_NUM_PARALLEL)")
-    parser.add_argument("--juiz", action="store_true", help="o modelo, com raciocínio alto, julga cada conversa")
+    parser.add_argument("--juiz", action="store_true", help="o próprio modelo julga cada conversa")
+    parser.add_argument("--juiz-raciocinio", default="medium", help="raciocínio do juiz: low, medium ou high")
     parser.add_argument("--pausa", type=float, default=0, help="segundos entre turnos (use ~20 no Groq gratuito)")
     parser.add_argument("--todas", action="store_true", help="põe todas as conversas no .md, não só as falhas")
     args = parser.parse_args()
@@ -282,7 +283,7 @@ async def main() -> int:
     llm = build_llm(settings)
     juiz = None
     if args.juiz:
-        juiz = build_llm(settings.model_copy(update={"llm_reasoning_effort": "high", "llm_temperature": 0.0}))
+        juiz = build_llm(settings.model_copy(update={"llm_reasoning_effort": args.juiz_raciocinio, "llm_temperature": 0.0}))
     material = RAIZ / settings.material_dir
     trechos = carregar(material) if material.is_dir() else []
     busca = Busca(trechos) if trechos else None
