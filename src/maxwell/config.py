@@ -15,6 +15,12 @@ class Settings(BaseSettings):
     # Vazio usa o padrão do modelo. Menos raciocínio = respostas mais rápidas.
     llm_reasoning_effort: str = ""
 
+    # Painel do professor: lê as conversas no Open WebUI com a conta de administrador.
+    # Sem e-mail e senha, o painel não aparece.
+    openwebui_url: str = "http://open-webui:8080"
+    webui_admin_email: str = ""
+    webui_admin_password: str = ""
+
     # Material do RAG: Markdown do livro e das notas. Sem a pasta, o tutor roda sem RAG.
     material_dir: str = "data/processed"
 
