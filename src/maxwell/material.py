@@ -111,9 +111,12 @@ def dividir(markdown: str, fonte_padrao: str) -> list[Trecho]:
     return trechos
 
 
-def carregar(diretorio: Path) -> list[Trecho]:
+def carregar(diretorio: Path, ignorar: tuple[str, ...] | list[str] = ()) -> list[Trecho]:
+    """Lê os .md de ``diretorio`` e subpastas, menos as subpastas em ``ignorar`` (ex.: ("notas_lt",))."""
     trechos = []
     for arquivo in sorted(diretorio.rglob("*.md")):
+        if set(arquivo.relative_to(diretorio).parts[:-1]) & set(ignorar):
+            continue
         trechos.extend(dividir(arquivo.read_text(encoding="utf-8"), arquivo.stem))
     return trechos
 
@@ -154,7 +157,7 @@ class Busca:
             self._idf[t] * doc[t] * (self.K1 + 1) / (doc[t] + self.K1 * ajuste) for t in consulta if t in doc
         )
 
-    def buscar(self, consulta: str, k: int = 2, relativo: float = 0.5) -> list[Trecho]:
+    def buscar(self, consulta: str, k: int = 3, relativo: float = 0.5) -> list[Trecho]:
         """Os k melhores trechos, descartando os que pontuam menos que ``relativo`` × o melhor."""
         termos = set(_termos(consulta))
         notas = sorted(((self._pontuar(termos, i), i) for i in range(len(self._docs))), reverse=True)

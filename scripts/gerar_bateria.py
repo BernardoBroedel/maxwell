@@ -202,6 +202,42 @@ CONCEITOS = [
     ("Qual a diferença entre Γ na carga e Γ a uma distância d da carga?", "Γ(d) = Γ_L e^{-j2βd} (sem perdas): mesmo módulo, fase gira.", ERROS_ROE),
 ]
 
+# Conteúdo novo do RAG: Sadiku caps. 9 (Maxwell), 10 (ondas), 12 (guias) e o material de matrizes/RF do professor.
+CONCEITOS_GERAIS = [
+    ("Qual a forma diferencial da lei de Faraday nas equações de Maxwell?", "∇×E = −∂B/∂t.", []),
+    ("O que é a corrente de deslocamento e por que Maxwell precisou dela?",
+     "J_d = ∂D/∂t; sem ela a lei de Ampère violaria a conservação da carga (ex.: capacitor em carga).", []),
+    ("Qual a diferença entre fem de transformador e fem de movimento?",
+     "Transformador: espira parada e B variando no tempo (−∫∂B/∂t·dS). Movimento: condutor se move em B (∮(u×B)·dl).", []),
+    ("Quais as condições de contorno para E, D, H e B entre dois dielétricos sem cargas nem correntes na superfície?",
+     "E tangencial e H tangencial contínuos; D normal e B normal contínuos.", []),
+    ("Como comparar a corrente de condução com a de deslocamento num meio em regime senoidal?",
+     "|J_c|/|J_d| = σ/(ωε), a tangente de perdas.", []),
+    ("Qual a impedância intrínseca do espaço livre e a velocidade da onda nele?", "η0 = 120π ≈ 377 Ω; c ≈ 3×10^8 m/s.", []),
+    ("O que é a profundidade de penetração e como calcular num bom condutor?",
+     "δ = 1/α: distância em que a amplitude cai a 1/e; bom condutor: δ = 1/√(πfμσ).", []),
+    ("Quando um meio pode ser tratado como bom condutor?", "Quando σ/(ωε) >> 1 (tangente de perdas muito grande).", []),
+    ("O que o vetor de Poynting representa?", "P = E×H: densidade de potência (W/m²); média: ½Re(E×H*).", []),
+    ("Na incidência normal entre dois dielétricos, como se calculam os coeficientes de reflexão e transmissão?",
+     "Γ = (η2−η1)/(η2+η1); τ = 2η2/(η2+η1) = 1+Γ.", []),
+    ("O que é o ângulo de Brewster?",
+     "Ângulo em que a onda com polarização paralela não é refletida; meios não magnéticos: tg θ_B = √(ε2/ε1).", []),
+    ("O que é a frequência de corte de um guia de onda retangular?",
+     "f_c = (u'/2)√((m/a)²+(n/b)²); abaixo dela o modo não se propaga (é evanescente).", []),
+    ("Qual o modo dominante de um guia retangular com a > b e sua frequência de corte?", "TE10, f_c = u'/(2a).", []),
+    ("Por que um guia de onda retangular oco não propaga o modo TEM?",
+     "O TEM precisa de dois condutores; um guia de um condutor só tem modos TE e TM.", []),
+    ("Qual a relação entre as velocidades de fase e de grupo num guia de onda?",
+     "u_p = u'/√(1−(f_c/f)²) > u'; u_g = u'√(1−(f_c/f)²) < u'; u_p·u_g = u'².", []),
+    ("Existe o modo TM10 num guia retangular?", "Não: os modos TM precisam de m ≥ 1 e n ≥ 1; o primeiro é o TM11.", []),
+    ("O que o parâmetro S11 de uma rede de duas portas representa?",
+     "O coeficiente de reflexão na porta 1 com a porta 2 terminada em carga casada.", []),
+    ("O que a matriz S diz sobre uma rede recíproca e sobre uma rede sem perdas?",
+     "Recíproca: S simétrica (S12 = S21). Sem perdas: S unitária (ex.: |S11|²+|S21|² = 1).", []),
+    ("Para que serve a matriz ABCD?", "Para associar redes em cascata: a ABCD total é o produto das matrizes, na ordem.", []),
+    ("Como se calcula a perda de inserção em dB a partir da matriz S?", "IL = −20 log10|S21| (porta de saída casada).", []),
+]
+
 ANKI = ["ROE", "coeficiente de reflexão", "impedância de entrada", "carta de Smith", "transformador de λ/4",
         "casamento com toco", "linhas sem perdas", "potência na linha", "casos limite (curto, aberto, casada)", "parâmetros distribuídos"]
 REVISAO = ["coeficiente de reflexão e ROE", "impedância de entrada", "carta de Smith", "casamento de impedância", "revisão geral"]
@@ -225,6 +261,12 @@ def casos_fixos(repeticoes: int) -> list[dict]:
             casos.append({
                 "id": f"tutor-conceito-{i:02d}-r{r}", "categoria": "tutor: conceito", "modo": "maxwell-tutor",
                 "descricao": "Dúvida conceitual: explicação correta, curta, terminando com uma pergunta",
+                "gabarito": gabarito, "turnos": [{"aluno": pergunta, "proibido": proibido, "max_palavras": 220}],
+            })
+        for i, (pergunta, gabarito, proibido) in enumerate(CONCEITOS_GERAIS, 1):
+            casos.append({
+                "id": f"tutor-geral-{i:02d}-r{r}", "categoria": "tutor: conceito caps. 9, 10, 12 e RF", "modo": "maxwell-tutor",
+                "descricao": "Dúvida conceitual fora de linhas de transmissão: correta, curta, terminando com uma pergunta",
                 "gabarito": gabarito, "turnos": [{"aluno": pergunta, "proibido": proibido, "max_palavras": 220}],
             })
         for i, tema in enumerate(ANKI, 1):

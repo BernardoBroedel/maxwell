@@ -93,3 +93,12 @@ def test_grafo_anexa_material_ao_prompt():
 
     assert result["material"] == formatar_material(busca.trechos)
     assert "## [EM2 LT - Fórmulas] Carta de Smith" in result["material"]
+
+
+def test_carregar_ignora_subpastas(tmp_path):
+    (tmp_path / "livro").mkdir()
+    (tmp_path / "notas_lt").mkdir()
+    (tmp_path / "livro" / "cap.md").write_text("# Cap\n\n## A\n\nTexto do livro sobre ondas.", encoding="utf-8")
+    (tmp_path / "notas_lt" / "n.md").write_text("# Notas\n\n## B\n\nTexto das notas sobre ondas.", encoding="utf-8")
+    assert {t.fonte for t in carregar(tmp_path)} == {"cap", "n"}
+    assert {t.fonte for t in carregar(tmp_path, ignorar=("notas_lt",))} == {"cap"}

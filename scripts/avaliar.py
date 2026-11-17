@@ -287,6 +287,7 @@ async def main() -> int:
     parser.add_argument("--juiz", action="store_true", help="o próprio modelo julga cada conversa")
     parser.add_argument("--juiz-raciocinio", default="medium", help="raciocínio do juiz: low, medium ou high")
     parser.add_argument("--pausa", type=float, default=0, help="segundos entre turnos (use ~20 no Groq gratuito)")
+    parser.add_argument("--sem", nargs="*", default=[], help="subpastas de data/processed fora do RAG nesta rodada (ex.: notas_lt)")
     parser.add_argument("--todas", action="store_true", help="põe todas as conversas no .md, não só as falhas")
     args = parser.parse_args()
 
@@ -297,7 +298,7 @@ async def main() -> int:
     if args.juiz:
         juiz = build_llm(settings.model_copy(update={"llm_reasoning_effort": args.juiz_raciocinio, "llm_temperature": 0.0}))
     material = RAIZ / settings.material_dir
-    trechos = carregar(material) if material.is_dir() else []
+    trechos = carregar(material, ignorar=args.sem) if material.is_dir() else []
     busca = Busca(trechos) if trechos else None
     grafos = {m.id: build_tutor_graph(llm, load_prompt(m.prompt), busca=busca) for m in MODOS}
 
@@ -309,7 +310,8 @@ async def main() -> int:
         casos = casos[: args.limite]
     print(
         f"Modelo {settings.llm_model} (raciocínio: {settings.llm_reasoning_effort or 'padrão'}) · {len(casos)} casos · "
-        f"paralelo {args.paralelo} · juiz {'sim' if juiz else 'não'} · RAG: {len(trechos)} trechos",
+        f"paralelo {args.paralelo} · juiz {'sim' if juiz else 'não'} · RAG: {len(trechos)} trechos"
+        + (f" (sem {', '.join(args.sem)})" if args.sem else ""),
         flush=True,
     )
 
