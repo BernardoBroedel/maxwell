@@ -102,3 +102,12 @@ def test_carregar_ignora_subpastas(tmp_path):
     (tmp_path / "notas_lt" / "n.md").write_text("# Notas\n\n## B\n\nTexto das notas sobre ondas.", encoding="utf-8")
     assert {t.fonte for t in carregar(tmp_path)} == {"cap", "n"}
     assert {t.fonte for t in carregar(tmp_path, ignorar=("notas_lt",))} == {"cap"}
+
+
+def test_link_do_material_do_professor_vai_para_o_prompt():
+    md = '---\nfonte: "Material do professor: Guias de Ondas"\npagina: "https://exemplo.org/guias.html"\n---\n# Guias\n\n## Modo TE10\n\nO modo dominante é o TE10.'
+    trechos = dividir(md, "guias")
+    assert trechos[0].link == "https://exemplo.org/guias.html"
+    assert "Link: https://exemplo.org/guias.html" in formatar_material(trechos)
+    sem_link = dividir("# Notas\n\n## A\n\nTexto.", "notas")
+    assert sem_link[0].link == "" and "Link:" not in formatar_material(sem_link)

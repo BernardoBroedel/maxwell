@@ -35,6 +35,7 @@ class Trecho:
     fonte: str  # ex.: "EM2 LT - Fórmulas" ou "Sadiku, cap. 11"
     titulo: str  # caminho de títulos, ex.: "Casamento de impedâncias > Toco único"
     texto: str
+    link: str = ""  # página de origem (campo "pagina" do cabeçalho), ex.: material do professor
 
 
 def _frontmatter(markdown: str) -> tuple[dict[str, str], str]:
@@ -83,6 +84,7 @@ def dividir(markdown: str, fonte_padrao: str) -> list[Trecho]:
     if "fonte" in campos:
         autor = campos["fonte"].split(",")[0]
         fonte = f"{autor}, cap. {campos['capitulo']}" if "capitulo" in campos else autor
+    link = campos.get("pagina", "") if campos.get("pagina", "").startswith("https://") else ""
 
     secoes: list[tuple[list[tuple[int, str]], list[str]]] = []
     titulos: list[tuple[int, str]] = []  # (nível, título) de cada cabeçalho aberto
@@ -107,7 +109,7 @@ def dividir(markdown: str, fonte_padrao: str) -> list[Trecho]:
             continue
         # O título do arquivo (#) se repete em todas as seções: só entra se for o único
         caminho = [t for nivel, t in titulos_secao if nivel > 1] or [t for _, t in titulos_secao]
-        trechos.extend(Trecho(fonte, " > ".join(caminho), pedaco) for pedaco in _partir(texto))
+        trechos.extend(Trecho(fonte, " > ".join(caminho), pedaco, link) for pedaco in _partir(texto))
     return trechos
 
 
@@ -176,5 +178,5 @@ def formatar_material(trechos: list[Trecho]) -> str:
         "Trechos das notas de estudo e do livro encontrados para esta conversa. "
         "Use-os seguindo as regras de *Material da disciplina*."
     ]
-    partes += [f"## [{t.fonte}] {t.titulo}\n\n{t.texto}" for t in trechos]
+    partes += [f"## [{t.fonte}] {t.titulo}\n\n" + (f"Link: {t.link}\n\n" if t.link else "") + t.texto for t in trechos]
     return "\n\n".join(partes)

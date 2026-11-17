@@ -77,3 +77,9 @@ def test_detecta_cartao_anki_com_ponto_e_virgula_a_mais():
     ruim = "```\n#separator:Semicolon\nO que é ROE?;Razão; depende de Γ.\nZ\\;\\Omega?;ok\n```"
     assert avaliar.cartoes_anki_quebrados(bom) == 0
     assert avaliar.cartoes_anki_quebrados(ruim) == 2
+
+
+def test_links_inventados():
+    certo = "📖 Para aprofundar: [Guias de Ondas](https://app.in-foton.org/eletromagnetismo/guias-de-ondas.html)."
+    assert avaliar.links_inventados(certo) == []
+    assert avaliar.links_inventados("veja https://app.in-foton.org/eletromagnetismo/antenas.html") != []
