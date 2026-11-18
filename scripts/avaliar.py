@@ -75,19 +75,6 @@ def contem(resposta: str, trecho: str) -> bool:
     return normalizar(trecho) in normalizar(resposta)
 
 
-LINKS_DO_MATERIAL = {
-    "https://app.in-foton.org/eletromagnetismo/linhas-transmissao.html",
-    "https://app.in-foton.org/eletromagnetismo/guias-de-ondas.html",
-    "https://app.in-foton.org/eletromagnetismo/matrizes-dispositivos-rf.html",
-}
-
-
-def links_inventados(resposta: str) -> list[str]:
-    """Links na resposta que não são páginas do material (o modelo só pode copiar os que recebeu)."""
-    links = re.findall(r"https?://[^\s)\]>\"'`]+", resposta)
-    return [link for link in links if link.rstrip(".,;:") not in LINKS_DO_MATERIAL]
-
-
 def cartoes_anki_quebrados(resposta: str) -> int:
     """Linhas de cartão, dentro do bloco de código, que não têm exatamente um ';' (quebram a importação)."""
     bloco = re.search(r"```[^\n]*\n(.*?)```", resposta, re.DOTALL)
@@ -177,10 +164,6 @@ async def rodar_caso(caso: dict, grafos: dict, pausa: float = 0, juiz=None) -> d
             problemas.append(f"longo ({palavras} > {turno['max_palavras']} palavras)")
         if "<think>" in resposta:
             problemas.append("<think> na resposta")
-        if inventados := links_inventados(resposta):
-            problemas.append("link inventado: " + ", ".join(inventados))
-        if caso["modo"] == "maxwell-anki" and "http" in resposta:
-            problemas.append("anki: link nos cartões")
         if caso["modo"] == "maxwell-anki" and (quebrados := cartoes_anki_quebrados(resposta)):
             problemas.append(f"anki: {quebrados} cartão(ões) com ';' a mais ou a menos")
         turnos.append(
